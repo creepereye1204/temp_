@@ -19,7 +19,7 @@ const Home = () => {
         setNickname(response.data);
       }
     } catch (e) {
-      alert('서버와 연결되지 않았습니다.');
+      
       console.log('정보제공 오류 => ' + e);
     }
   };

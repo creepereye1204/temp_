@@ -11,7 +11,6 @@ const Write = () => {
   const [contents, setContents] = useState('');
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(true);
-  const [image, setImage] = useState(null);
   const isEditMode = location.state && location.state.isEditMode;
 
   useEffect(() => {
@@ -35,11 +34,10 @@ const Write = () => {
       const fetchPostData = async () => {
         try {
           const response = await axios.get(`/post/${id}`);
-          const { title, contents, nickname, image } = response.data;
+          const { title, contents, nickname } = response.data;
           setTitle(title);
           setContents(contents);
           setNickname(nickname);
-          setImage(image);
           setLoading(false);
         } catch (error) {
           alert('글을 불러오는데 오류가 발생했습니다.');
@@ -65,46 +63,27 @@ const Write = () => {
     setContents(e.target.value);
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // 선택한 이미지 파일 업데이트
-  };
-
   const handleSubmit = async () => {
     try {
       if (isEditMode) {
         const shouldUpdate = window.confirm('수정하시겠습니까?');
         if (shouldUpdate) {
-          const formData = new FormData(); // FormData 객체 생성
-          formData.append('title', title); // 제목 추가
-          formData.append('contents', contents); // 본문 추가
-          if (image) {
-            formData.append('image', image); // 이미지 파일 추가
-          }
-
           // 글 수정 요청 처리
-          axios.put(`/post/${id}`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data', // 이미지 업로드를 위한 헤더 설정
-            },
+          await axios.post(`/post/modify/${id}`, {
+            title,
+            contents,
           });
-          alert('글이 성공적으로 수정되었습니다.');
-          navigate(`/post/${id}`);
+          alert('수정 되었습니다.');
+          navigate('/Community');
         }
       } else {
         const shouldSubmit = window.confirm('작성하시겠습니까?');
         if (shouldSubmit) {
-          const formData = new FormData(); // FormData 객체 생성
-          formData.append('title', title); // 제목 추가
-          formData.append('contents', contents); // 본문 추가
-          if (image) {
-            formData.append('image', image); // 이미지 파일 추가
-          }
-
           // 글 작성 요청 처리
-          await axios.post('/post/add', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data', // 이미지 업로드를 위한 헤더 설정
-            },
+          await axios.post('/post/add', {
+            title,
+            contents,
+          }, {
             withCredentials: true, // credential 옵션 추가
           });
 
@@ -148,13 +127,6 @@ const Write = () => {
               value={contents}
               onChange={handleContentsChange}
               required
-            />
-          </div>
-          <div className="p-2">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange} // 이미지 파일 선택 핸들러
             />
           </div>
           <div className="pt-6 flex justify-end">

@@ -12,7 +12,7 @@ const Post = () => {
     const fetchPost = async () => {
       try {
         const fetchedData = await axios.get(
-          `/post_/${id}`
+          `/post/${id}`
         );
         setPost(fetchedData.data);
       } catch (error) {
@@ -30,10 +30,10 @@ const Post = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`/Post/${id}`)
+      .get(`/post/delete/${id}`)
       .then(() => {
         alert('글이 삭제되었습니다!');
-        navigate('/board/1');
+        navigate("/Community");
       })
       .catch(() => {
         alert('글 삭제 중 오류가 발생했습니다.');
@@ -48,18 +48,18 @@ const Post = () => {
     <div>
       <Sidebar />
       <div className="flex flex-col items-center bg-blue-100 min-h-screen">
-        <div className="mt-5 border-b-4 w-5/6"></div>
+        <div className=" custom-hr"></div>
         <div className="flex flex-row items-center p-2 font-bold text-2xl border-b-4 w-5/6 bg-blue-100">
           <div className="Jua-font flex justify-start text-start w-auto text-blue-900 bg-blue-100">
-            <p>{post.title}</p>
+            {post.title}
           </div>
         </div>
         <div className="flex flex-col w-5/6 text-left">
-          <div className="flex justify-between items-center">
+          <div className="bg-blue-100 border-y-4 border-blue-800 flex justify-between  items-center">
             <div>
               <p className="Jua-font text-blue-900">{post.nickname}</p>
               <p className="Jua-font text-blue-900">
-                {new Date(post.createdDate).toLocaleString('ko-KR', {
+                {new Date(post.created_at).toLocaleString('ko-KR', {
                   year: '2-digit',
                   month: '2-digit',
                   day: '2-digit',

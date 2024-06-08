@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Sidebar from "../components/Sidebar";
 const MyFridge = () => {
   const [ingredients, setIngredients] = useState([]);
   const navigate = useNavigate();
@@ -41,6 +41,7 @@ const MyFridge = () => {
 
   return (
     <div className="bg-blue-100 flex flex-col min-h-screen">
+      <Sidebar />
       <div className="flex justify-center items-center w-full mt-4 p-2">
         <button
           className="Jua-font border-2 border-sky-900 bg-blue-200 p-2 rounded-2xl select-none"
@@ -74,12 +75,12 @@ const MyFridge = () => {
                   {data.ingredient === "고기" ? "g" : "개"})
                 </div>
                 <div className="text-sm text-gray-600">
-                  {data.storeMethod === true ? "냉동보관" : "냉장보관"}
+                  {data.storeMethod === false ? "냉동보관" : "냉장보관"}
                 </div>
               </div>
             </div>
             <div className="ml-auto text-right text-red-500 text-lg mr-4">
-              D-{data.dDay}
+              {data.dDay >= 0?`D-${data.dDay}`:`D+${Math.abs(data.dDay)}`}
             </div>
           </div>
         ))}

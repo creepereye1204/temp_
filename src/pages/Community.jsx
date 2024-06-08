@@ -19,7 +19,7 @@ const Community = () => {
 
   const getBoardList = async (pageNumber) => {
     try {
-      const resp = await axios.get(`/post/${pageNumber}`, {
+      const resp = await axios.get(`/post/list/${pageNumber}`, {
         withCredentials: true,
       });
       setPostList(resp.data.data);

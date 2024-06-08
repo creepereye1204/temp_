@@ -178,16 +178,16 @@ const EditIngredients = () => {
               </div>
             </div>
             <div className="flex flex-col items-center">
-              <span>소비기한</span>
-              <input
-                type="date"
-                id={`ingredient-${item.id}`}
-                value={item.expireDate}
-                onChange={(e) =>
-                  handleExpirationDateChange(item.id, e.target.value)
-                }
-                className="border-2  h-8 w-32  mt-2"
-              />
+            <span>소비기한</span>
+            <input
+              type="date"
+              id={`ingredient-${item.id}`}
+              value={new Date(item.expireDate).toISOString().slice(0, 10)}
+              onChange={(e) => handleExpirationDateChange(item.id, e.target.value)}
+              className="border-2 h-8 w-32 mt-2"
+            />
+
+
             </div>
             <button
               onClick={() => handleRemoveIngredient(item.id)}

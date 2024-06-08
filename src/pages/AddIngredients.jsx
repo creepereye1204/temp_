@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 const AddIngredients = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -79,6 +80,7 @@ const AddIngredients = () => {
 
   return (
     <div className="bg-blue-100 flex flex-col items-center font-sans text-center relative min-h-screen">
+      <Sidebar />
       <h2 className="Jua-font text-blue-900 text-4xl mt-4 top-0 bg-blue-100 flex items-center justify-center relative select-none">
         식재료 추가하기
       </h2>
